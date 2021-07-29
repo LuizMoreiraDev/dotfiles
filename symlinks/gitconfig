@@ -58,6 +58,9 @@
   required = true
   clean = git-lfs clean -- %f
 
+[pull]
+  rebase = false
+
 [init]
   defaultBranch = main
 
@@ -69,6 +72,7 @@
   c   = commit
   ca  = commit -a
   cam = commit -am
+  co  = checkout
   d   = diff
   la  = "!git config -l | grep alias | cut -c 7-"
   pl  = pull
