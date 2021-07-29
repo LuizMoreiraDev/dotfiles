@@ -18,5 +18,3 @@ echo "[user]\n  name  = Luiz Claudio Moreira Junior\n  email = sample@example.co
 mkdir -p $HOME/.zsh.after
 echo "source $HOME/.dotfiles/zshrc" >> $HOME/.zshrc
 source $HOME/.zshrc
-
-vim +BundleInstall +qall
