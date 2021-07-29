@@ -1,0 +1,142 @@
+" .vimrc File
+" Maintained by: Luiz Claudio Moreira Junior
+" luiz@luizclaudiomoreira.com
+" https://luizclaudiomoreira.com
+
+set nocompatible
+set belloff=all
+set encoding=utf-8
+scriptencoding utf-8
+
+let mapleader = ' '
+
+set autoread
+set colorcolumn=120
+set cursorcolumn
+set cursorline
+set expandtab 
+set hidden
+set ignorecase
+set list listchars=tab:»»,trail:·
+set number
+set relativenumber
+set scrolloff=5
+set shiftround
+set shiftwidth=2
+set smartindent
+set softtabstop=2 
+set splitbelow
+set splitright
+set tabstop=2
+set title
+set wrap
+
+if !has('nvim')
+  set hlsearch
+  set incsearch
+  set wildmenu
+  set wildmode=list:longest
+  set laststatus=2
+endif
+
+" go to file:[line]
+nnoremap <silent>gf :vertical botright wincmd F<CR>
+
+" switch between the last two files
+nnoremap <leader><leader> <c-^>
+
+" copy
+vnoremap y  "+y
+nnoremap yy "+yy
+nnoremap <leader>cp <esc>:let @+=@%<cr>
+
+" split
+nnoremap vv :vsplit<cr>
+nnoremap ss :split<cr>
+
+" hide highlight search
+nmap <silent>qq :silent :nohlsearch<CR>
+
+" B = kill current buffer
+" W = save current file
+" Q = kill current pane/window
+nnoremap <silent>B <esc>:bd<cr>
+nnoremap <silent>W <esc>:w<cr>
+nnoremap <silent>Q <esc><C-w>q
+
+" move between split panes/windows using H, J, K, L
+nnoremap <silent><C-h> <C-w>h
+nnoremap <silent><C-l> <C-w>l
+nnoremap <silent><C-k> <C-w>k
+nnoremap <silent><C-j> <C-w>j
+
+" paste toggle
+nnoremap <F8> :set invpaste paste?<CR>
+set pastetoggle=<F8>
+
+" CtrlP
+nnoremap <Leader>p :CtrlP<CR>
+nnoremap <Leader>b :CtrlPBuffer<cr>
+nnoremap <Leader>t :CtrlPMRUFiles<CR>
+nnoremap <Leader>ja :CtrlP app<CR>
+nnoremap <Leader>jl :CtrlP lib<CR>
+nnoremap <Leader>jn :CtrlP models<CR>
+nnoremap <Leader>jv :CtrlP app/views<CR>
+nnoremap <Leader>jm :CtrlP app/models<CR>
+nnoremap <Leader>jc :CtrjP app/controllers<CR>
+nnoremap <Leader>ji :CtrlP app/assets/javascripts<CR>
+nnoremap <Leader>jy :CtrlP app/assets/stylesheets<CR>
+nnoremap <Leader>js :CtrlP spec<CR>
+nnoremap <Leader>jf :CtrlP features<CR>
+
+" EasyAlign
+nmap ga <Plug>(EasyAlign)
+xmap ga <Plug>(EasyAlign)
+
+" NERDTree
+nnoremap <Leader>k :NERDTreeToggle<CR>
+" Stolen from https://github.com/skwp/dotfiles
+function! FindInNerdTree()
+  if &modifiable && strlen(expand('%')) > 0 && !&diff
+    NERDTreeFind
+  endif
+endfunction
+nnoremap <Leader>n :call FindInNerdTree()<CR>
+
+" plugins
+silent! runtime macros/matchit.vim
+silent! runtime vundles.vim
+if !isdirectory(expand("~/.vim/bundle/vundle/.git"))
+  !git clone git://github.com/gmarik/vundle.git ~/.vim/bundle/vundle
+endif
+set rtp+=~/.vim/bundle/vundle/
+call vundle#rc()
+" Bundle 'https://github.com/Yggdroot/indentLine'
+Bundle 'https://github.com/ctrlpvim/ctrlp.vim'
+Bundle 'https://github.com/gmarik/vundle'
+Bundle 'https://github.com/itchyny/lightline.vim'
+Bundle 'https://github.com/junegunn/vim-easy-align'
+Bundle 'https://github.com/mg979/vim-visual-multi'
+Bundle 'https://github.com/morhetz/gruvbox'
+" Bundle 'https://github.com/ngmy/vim-rubocop'
+Bundle 'https://github.com/scrooloose/nerdtree'
+Bundle 'https://github.com/slim-template/vim-slim'
+" Bundle 'https://github.com/thoughtbot/vim-rspec'
+Bundle 'https://github.com/tomtom/tcomment_vim'
+Bundle 'https://github.com/tpope/vim-endwise'
+Bundle 'https://github.com/tpope/vim-rails'
+Bundle 'https://github.com/vim-ruby/vim-ruby'
+Bundle 'https://github.com/wakatime/vim-wakatime'
+" / Plugins
+"
+" Appearance
+colorscheme gruvbox
+set background=dark
+" / Appearance
+
+filetype on
+filetype plugin on
+filetype indent on
+syntax   on
+
+set secure

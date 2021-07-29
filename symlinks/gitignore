@@ -1,0 +1,14 @@
+*.sw?
+.env
+.secret
+.vagrant
+
+tags
+
+log/*
+!log/.gitkeep
+!log/.keep
+
+tmp/*
+!tmp/.gitkeep
+!tmp/.keep
