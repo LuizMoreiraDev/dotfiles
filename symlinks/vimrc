@@ -3,6 +3,32 @@
 " luiz@luizclaudiomoreira.com
 " https://luizclaudiomoreira.com
 
+" plugins
+silent! runtime macros/matchit.vim
+silent! runtime vundles.vim
+if !isdirectory(expand("~/.vim/bundle/vundle/.git"))
+  !git clone git://github.com/gmarik/vundle.git ~/.vim/bundle/vundle
+endif
+set rtp+=~/.vim/bundle/vundle/
+call vundle#rc()
+" Bundle 'https://github.com/Yggdroot/indentLine' "
+Bundle 'https://github.com/ctrlpvim/ctrlp.vim'
+Bundle 'https://github.com/gmarik/vundle'
+Bundle 'https://github.com/itchyny/lightline.vim'
+Bundle 'https://github.com/junegunn/vim-easy-align'
+Bundle 'https://github.com/mg979/vim-visual-multi'
+Bundle 'https://github.com/morhetz/gruvbox'
+Bundle 'https://github.com/scrooloose/nerdtree'
+Bundle 'https://github.com/slim-template/vim-slim'
+" Bundle 'https://github.com/thoughtbot/vim-rspec' "
+Bundle 'https://github.com/tomtom/tcomment_vim'
+Bundle 'https://github.com/tpope/vim-endwise'
+Bundle 'https://github.com/tpope/vim-rails'
+Bundle 'https://github.com/vim-autoformat/vim-autoformat'
+Bundle 'https://github.com/vim-ruby/vim-ruby'
+Bundle 'https://github.com/wakatime/vim-wakatime'
+" / plugins
+
 set nocompatible
 set belloff=all
 set encoding=utf-8
@@ -10,11 +36,12 @@ scriptencoding utf-8
 
 let mapleader = ' '
 
+set autoindent
 set autoread
 set colorcolumn=120
 set cursorcolumn
 set cursorline
-set expandtab 
+set expandtab
 set hidden
 set ignorecase
 set list listchars=tab:»»,trail:·
@@ -24,11 +51,13 @@ set scrolloff=5
 set shiftround
 set shiftwidth=2
 set smartindent
-set softtabstop=2 
+set softtabstop=2
 set splitbelow
 set splitright
 set tabstop=2
 set title
+set wildmenu
+set wildmode=list:longest
 set wrap
 
 if !has('nvim')
@@ -45,7 +74,7 @@ nnoremap <silent>gf :vertical botright wincmd F<CR>
 " switch between the last two files
 nnoremap <leader><leader> <c-^>
 
-" copy
+" copy / paste
 vnoremap y  "+y
 nnoremap yy "+yy
 nnoremap <leader>cp <esc>:let @+=@%<cr>
@@ -89,6 +118,21 @@ nnoremap <Leader>jy :CtrlP app/assets/stylesheets<CR>
 nnoremap <Leader>js :CtrlP spec<CR>
 nnoremap <Leader>jf :CtrlP features<CR>
 
+if exists("g:ctrlp_user_command")
+  unlet g:ctrlp_user_command
+endif
+if executable('ag')
+  " Use ag in CtrlP for listing files. Lightning fast and respects .gitignore
+  let g:ctrlp_user_command = 'ag %s --files-with-matches -g "" --ignore "\.git$\|\.hg$\|\.svn$"'
+
+  " ag is fast enough that CtrlP doesn't need to cache
+  " let g:ctrlp_use_caching = 0
+else
+  " Fall back to using git ls-files if Ag is not available
+  let g:ctrlp_custom_ignore = '\.git$\|\.hg$\|\.svn$'
+  let g:ctrlp_user_command  = ['.git', 'cd %s && git ls-files . --cached --exclude-standard --others']
+endif
+
 " EasyAlign
 nmap ga <Plug>(EasyAlign)
 xmap ga <Plug>(EasyAlign)
@@ -103,36 +147,40 @@ function! FindInNerdTree()
 endfunction
 nnoremap <Leader>n :call FindInNerdTree()<CR>
 
-" plugins
-silent! runtime macros/matchit.vim
-silent! runtime vundles.vim
-if !isdirectory(expand("~/.vim/bundle/vundle/.git"))
-  !git clone git://github.com/gmarik/vundle.git ~/.vim/bundle/vundle
+" ctags
+let g:Tlist_Ctags_Cmd="rm tags && ctags --exclude='*.js'"
+if has("gui_running") && (has("gui_mac") || has("gui_macvim"))
+  map <Leader>ct :!/usr/local/bin/ctags -R .<CR>
+else
+  map <Leader>ct :!ctags -R .<CR>
 endif
-set rtp+=~/.vim/bundle/vundle/
-call vundle#rc()
-" Bundle 'https://github.com/Yggdroot/indentLine'
-Bundle 'https://github.com/ctrlpvim/ctrlp.vim'
-Bundle 'https://github.com/gmarik/vundle'
-Bundle 'https://github.com/itchyny/lightline.vim'
-Bundle 'https://github.com/junegunn/vim-easy-align'
-Bundle 'https://github.com/mg979/vim-visual-multi'
-Bundle 'https://github.com/morhetz/gruvbox'
-" Bundle 'https://github.com/ngmy/vim-rubocop'
-Bundle 'https://github.com/scrooloose/nerdtree'
-Bundle 'https://github.com/slim-template/vim-slim'
-" Bundle 'https://github.com/thoughtbot/vim-rspec'
-Bundle 'https://github.com/tomtom/tcomment_vim'
-Bundle 'https://github.com/tpope/vim-endwise'
-Bundle 'https://github.com/tpope/vim-rails'
-Bundle 'https://github.com/vim-ruby/vim-ruby'
-Bundle 'https://github.com/wakatime/vim-wakatime'
-" / Plugins
-"
-" Appearance
-colorscheme gruvbox
+
+" auto format before saving
+au BufWrite * :retab
+au BufWrite * :RemoveTrailingSpaces
+
+" appearance
+if has("gui_running")
+  set guioptions-=T " no toolbar or menus
+  set guioptions-=r " no scrollbar on the right
+  set guioptions-=R " no scrollbar on the right
+  set guioptions-=l " no scrollbar on the left
+  set guioptions-=b " no scrollbar on the bottom
+  set guioptions-=L " no scrollbar on the nerdtree
+
+  set t_Co=256 "tell the term has 256 colors
+
+  if has("gui_mac") || has("gui_macvim")
+    set guifont=Monaco:h13
+    set transparency=7
+    set fullscreen
+  endif
+else
+  set termguicolors
+endif
 set background=dark
-" / Appearance
+colorscheme gruvbox
+" / appearance
 
 filetype on
 filetype plugin on

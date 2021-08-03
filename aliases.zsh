@@ -1,8 +1,12 @@
+if [ -f /usr/bin/dircolors ]; then
+  LS_OPTS="--color=auto"
+fi
+
 alias g="git"
 alias t="tmux"
 alias v="vagrant"
-
-alias ls="ls -Glh"
+alias ls="ls -lh $LS_OPTS"
+alias grep="grep --color=auto"
 
 # alias for aliases
 alias ae="vim ~/.dotfiles/aliases.zsh"
