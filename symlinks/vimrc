@@ -13,11 +13,11 @@ set rtp+=~/.vim/bundle/vundle/
 call vundle#rc()
 " Bundle 'https://github.com/Yggdroot/indentLine' "
 Bundle 'https://github.com/ctrlpvim/ctrlp.vim'
+Bundle 'https://github.com/ervandew/supertab'
 Bundle 'https://github.com/gmarik/vundle'
 Bundle 'https://github.com/itchyny/lightline.vim'
 Bundle 'https://github.com/junegunn/vim-easy-align'
 Bundle 'https://github.com/mg979/vim-visual-multi'
-Bundle 'https://github.com/morhetz/gruvbox'
 Bundle 'https://github.com/scrooloose/nerdtree'
 Bundle 'https://github.com/slim-template/vim-slim'
 " Bundle 'https://github.com/thoughtbot/vim-rspec' "
@@ -27,6 +27,14 @@ Bundle 'https://github.com/tpope/vim-rails'
 Bundle 'https://github.com/vim-autoformat/vim-autoformat'
 Bundle 'https://github.com/vim-ruby/vim-ruby'
 Bundle 'https://github.com/wakatime/vim-wakatime'
+" Bundle 'https://github.com/autozimu/LanguageClient-neovim'
+Bundle 'https://github.com/tpope/vim-rhubarb'
+Bundle 'https://github.com/tpope/vim-fugitive'
+Bundle 'https://github.com/airblade/vim-gitgutter'
+" Bundle 'https://github.com/morhetz/gruvbox'
+Bundle 'https://github.com/altercation/vim-colors-solarized'
+Bundle 'https://github.com/rafi/awesome-vim-colorschemes'
+Bundle 'https://github.com/fladson/vim-kitty'
 " / plugins
 
 set nocompatible
@@ -45,6 +53,7 @@ set expandtab
 set hidden
 set ignorecase
 set list listchars=tab:»»,trail:·
+set mouse=a
 set number
 set relativenumber
 set scrolloff=5
@@ -59,6 +68,8 @@ set title
 set wildmenu
 set wildmode=list:longest
 set wrap
+
+let g:lightline = { 'colorscheme': 'wombat', 'active': { 'left': [ [ 'mode', 'paste' ], [ 'readonly', 'relativepath', 'modified' ] ], } }
 
 if !has('nvim')
   set hlsearch
@@ -155,11 +166,34 @@ else
   map <Leader>ct :!ctags -R .<CR>
 endif
 
+" Tell the language client to use the default IP and port
+" that Solargraph runs on
+" let g:LanguageClient_serverCommands = {
+"     \ 'ruby': ['tcp://localhost:7658']
+"     \ }
+
+" Don't send a stop signal to the server when exiting vim.
+" This is optional, but I don't like having to restart Solargraph
+" every time I restart vim.
+" let g:LanguageClient_autoStop = 0
+
+" Configure ruby omni-completion to use the language client:
+" autocmd FileType ruby setlocal omnifunc=LanguageClient#complete
+
 " auto format before saving
 au BufWrite * :retab
 au BufWrite * :RemoveTrailingSpaces
 
+filetype on
+filetype plugin on
+filetype indent on
+syntax   on
+syntax   enable
+
 " appearance
+set background=dark
+colorscheme gruvbox
+" colorscheme solarized
 if has("gui_running")
   set guioptions-=T " no toolbar or menus
   set guioptions-=r " no scrollbar on the right
@@ -177,14 +211,8 @@ if has("gui_running")
   endif
 else
   set termguicolors
+  hi Normal guibg=NONE ctermbg=NONE
 endif
-set background=dark
-colorscheme gruvbox
 " / appearance
-
-filetype on
-filetype plugin on
-filetype indent on
-syntax   on
 
 set secure
