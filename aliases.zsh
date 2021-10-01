@@ -3,6 +3,7 @@ if [ -f /usr/bin/dircolors ]; then
 fi
 
 # generic
+alias tmux="/usr/local/bin/tmux"
 alias t="tmux"
 alias v="vagrant"
 alias ls="ls -lh $LS_OPTS"
