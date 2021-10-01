@@ -20,8 +20,8 @@ mkdir -p $HOME/.zsh.after
 # Stolen from oh-my-zsh
 wget https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/lib/git.zsh -O $HOME/.zsh.after/aaa-git.zsh
 wget https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/plugins/git/git.plugin.zsh -O $HOME/.zsh.after/bbb-git.zsh
-chmod +x aaa-git.zsh
-chmod +x bbb-git.zsh
+chmod +x $HOME/.zsh.after/aaa-git.zsh
+chmod +x $HOME/.zsh.after/bbb-git.zsh
 
 echo "source $HOME/.dotfiles/zshrc" >> $HOME/.zshrc
 source $HOME/.zshrc

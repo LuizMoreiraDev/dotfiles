@@ -149,6 +149,7 @@ nmap ga <Plug>(EasyAlign)
 xmap ga <Plug>(EasyAlign)
 
 " NERDTree
+let NERDTreeWinSize=50
 nnoremap <Leader>k :NERDTreeToggle<CR>
 " Stolen from https://github.com/skwp/dotfiles
 function! FindInNerdTree()
@@ -205,8 +206,8 @@ if has("gui_running")
   set t_Co=256 "tell the term has 256 colors
 
   if has("gui_mac") || has("gui_macvim")
-    set guifont=Monaco:h13
-    set transparency=7
+    set guifont=Monaco:h12
+    set transparency=5
     set fullscreen
   endif
 else
