@@ -7,5 +7,5 @@ zsh -c "`curl -fsSL https://raw.github.com/luizclaudiomoreira/dotfiles/main/inst
 
 ## To install VIM plugins
 ```
-vim +BundleInstall +qall
+vim +PlugInstall +qall
 ```

@@ -13,6 +13,10 @@ alias grep="grep --color=auto"
 alias ae="vim ~/.dotfiles/aliases.zsh"
 alias ar="source ~/.dotfiles/aliases.zsh"
 
+# docker
+alias dk="docker"
+alias dkc="docker compose"
+
 # bundle
 alias bi="bundle install"
 alias bu="bundle update"

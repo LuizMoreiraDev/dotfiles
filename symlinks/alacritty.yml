@@ -1,19 +1,7 @@
 font:
-  size: 12.0
+  size: 11.5
   draw_bold_text_with_bright_colors: true
   # use_thin_strokes: true
-  # normal:
-  #   family: Menlo
-  #   style: Regular
-  # bold:
-  #   family: Menlo
-  #   style: Bold
-  # italic:
-  #   family: Menlo
-  #   style: Italic
-  # bold_italic:
-  #   family: Menlo
-  #   style: Bold Italic
 
 selection:
   save_to_clipboard: true
@@ -30,8 +18,12 @@ window:
   startup_mode: Maximized
 
 shell:
+  # program: ssh
   program: /usr/local/bin/tmux
   args:
+    # - -t
+    # - luizclaudiomoreira@localhost
+    # - /usr/local/bin/tmux
     - new-session
     - -A
     - -D

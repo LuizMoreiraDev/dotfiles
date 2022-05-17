@@ -3,39 +3,45 @@
 " luiz@luizclaudiomoreira.com
 " https://luizclaudiomoreira.com
 
-" plugins
-silent! runtime macros/matchit.vim
-silent! runtime vundles.vim
-if !isdirectory(expand("~/.vim/bundle/vundle/.git"))
-  !git clone git://github.com/gmarik/vundle.git ~/.vim/bundle/vundle
+"" plugins
+" auto install Plug for managing plugins
+augroup vimrc | autocmd! | augroup end
+if empty(glob('~/.vim/autoload/plug.vim'))
+  silent !curl -fLo "$HOME/.vim/autoload/plug.vim" --create-dirs 'https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
+  autocmd vimrc VimEnter * PlugInstall --sync | source $MYVIMRC
 endif
-set rtp+=~/.vim/bundle/vundle/
-call vundle#rc()
-" Bundle 'https://github.com/Yggdroot/indentLine' "
-Bundle 'https://github.com/ctrlpvim/ctrlp.vim'
-Bundle 'https://github.com/ervandew/supertab'
-Bundle 'https://github.com/gmarik/vundle'
-Bundle 'https://github.com/itchyny/lightline.vim'
-Bundle 'https://github.com/junegunn/vim-easy-align'
-Bundle 'https://github.com/mg979/vim-visual-multi'
-Bundle 'https://github.com/scrooloose/nerdtree'
-Bundle 'https://github.com/slim-template/vim-slim'
-" Bundle 'https://github.com/thoughtbot/vim-rspec' "
-Bundle 'https://github.com/tomtom/tcomment_vim'
-Bundle 'https://github.com/tpope/vim-endwise'
-Bundle 'https://github.com/tpope/vim-rails'
-Bundle 'https://github.com/vim-autoformat/vim-autoformat'
-Bundle 'https://github.com/vim-ruby/vim-ruby'
-Bundle 'https://github.com/wakatime/vim-wakatime'
-" Bundle 'https://github.com/autozimu/LanguageClient-neovim'
-Bundle 'https://github.com/tpope/vim-rhubarb'
-Bundle 'https://github.com/tpope/vim-fugitive'
-Bundle 'https://github.com/airblade/vim-gitgutter'
-" Bundle 'https://github.com/morhetz/gruvbox'
-Bundle 'https://github.com/altercation/vim-colors-solarized'
-Bundle 'https://github.com/rafi/awesome-vim-colorschemes'
-Bundle 'https://github.com/fladson/vim-kitty'
-" / plugins
+
+call plug#begin('~/.vim/plugged')
+
+" Plug 'Yggdroot/indentLine' "
+Plug 'ctrlpvim/ctrlp.vim'
+Plug 'ervandew/supertab'
+Plug 'gmarik/vundle'
+Plug 'itchyny/lightline.vim'
+Plug 'junegunn/vim-easy-align'
+Plug 'mg979/vim-visual-multi'
+Plug 'scrooloose/nerdtree'
+Plug 'slim-template/vim-slim'
+" Plug 'thoughtbot/vim-rspec' "
+Plug 'tomtom/tcomment_vim'
+Plug 'tpope/vim-endwise'
+Plug 'tpope/vim-rails'
+Plug 'vim-autoformat/vim-autoformat'
+Plug 'vim-ruby/vim-ruby'
+" Plug 'wakatime/vim-wakatime'
+" Plug 'autozimu/LanguageClient-neovim'
+Plug 'tpope/vim-rhubarb'
+Plug 'tpope/vim-fugitive'
+Plug 'airblade/vim-gitgutter'
+Plug 'morhetz/gruvbox'
+" Plug 'altercation/vim-colors-solarized'
+" Plug 'rafi/awesome-vim-colorschemes'
+Plug 'fladson/vim-kitty'
+Plug 'stanangeloff/php.vim'
+Plug 'dsawardekar/wordpress.vim'
+
+call plug#end()
+"" / plugins
 
 set nocompatible
 set belloff=all
@@ -88,7 +94,8 @@ nnoremap <leader><leader> <c-^>
 " copy / paste
 vnoremap y  "+y
 nnoremap yy "+yy
-nnoremap <leader>cp <esc>:let @+=@%<cr>
+" nnoremap <leader>cp <esc>:let @+=@%<cr>
+nnoremap <leader>cp <esc>:let @+ = expand("%")<cr>
 
 " split
 nnoremap vv :vsplit<cr>
@@ -193,8 +200,9 @@ syntax   enable
 
 " appearance
 set background=dark
-colorscheme gruvbox
-" colorscheme solarized
+if isdirectory(expand("~/.vim/plugged/gruvbox"))
+  colorscheme gruvbox
+endif
 if has("gui_running")
   set guioptions-=T " no toolbar or menus
   set guioptions-=r " no scrollbar on the right
@@ -206,7 +214,7 @@ if has("gui_running")
   set t_Co=256 "tell the term has 256 colors
 
   if has("gui_mac") || has("gui_macvim")
-    set guifont=Monaco:h12
+    set guifont=Monaco:h10
     set transparency=5
     set fullscreen
   endif
