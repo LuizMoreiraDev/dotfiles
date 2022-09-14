@@ -5,6 +5,7 @@ fi
 # generic
 alias tmux="/usr/local/bin/tmux"
 alias t="tmux"
+alias tn="tmux new-session -A -D -s"
 alias v="vagrant"
 alias ls="ls -lh $LS_OPTS"
 alias grep="grep --color=auto"
@@ -28,6 +29,7 @@ alias ru="rubocop"
 alias rs="clear && rspec --format=documentation"
 
 alias dbreset="rails db:environment:set RAILS_ENV=test && RAILS_ENV=test rails db:drop && RAILS_ENV=test rails db:create && RAILS_ENV=test rails db:migrate"
+alias sdbreset="spring rails db:environment:set RAILS_ENV=test && RAILS_ENV=test spring rails db:drop && RAILS_ENV=test spring rails db:create && RAILS_ENV=test spring rails db:migrate"
 
 # spring
 alias sp="spring"

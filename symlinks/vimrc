@@ -1,9 +1,4 @@
-" .vimrc File
-" Maintained by: Luiz Claudio Moreira Junior
-" luiz@luizclaudiomoreira.com
-" https://luizclaudiomoreira.com
-
-"" plugins
+" plugins
 " auto install Plug for managing plugins
 augroup vimrc | autocmd! | augroup end
 if empty(glob('~/.vim/autoload/plug.vim'))
@@ -17,7 +12,9 @@ call plug#begin('~/.vim/plugged')
 Plug 'ctrlpvim/ctrlp.vim'
 Plug 'ervandew/supertab'
 Plug 'gmarik/vundle'
-Plug 'itchyny/lightline.vim'
+" Plug 'itchyny/lightline.vim'
+Plug 'vim-airline/vim-airline'
+" Plug 'edkolev/tmuxline.vim'
 Plug 'junegunn/vim-easy-align'
 Plug 'mg979/vim-visual-multi'
 Plug 'scrooloose/nerdtree'
@@ -28,14 +25,14 @@ Plug 'tpope/vim-endwise'
 Plug 'tpope/vim-rails'
 Plug 'vim-autoformat/vim-autoformat'
 Plug 'vim-ruby/vim-ruby'
-" Plug 'wakatime/vim-wakatime'
+Plug 'wakatime/vim-wakatime'
 " Plug 'autozimu/LanguageClient-neovim'
 Plug 'tpope/vim-rhubarb'
 Plug 'tpope/vim-fugitive'
 Plug 'airblade/vim-gitgutter'
-Plug 'morhetz/gruvbox'
+" Plug 'morhetz/gruvbox'
 " Plug 'altercation/vim-colors-solarized'
-" Plug 'rafi/awesome-vim-colorschemes'
+Plug 'rafi/awesome-vim-colorschemes'
 Plug 'fladson/vim-kitty'
 Plug 'stanangeloff/php.vim'
 Plug 'dsawardekar/wordpress.vim'
@@ -43,50 +40,37 @@ Plug 'dsawardekar/wordpress.vim'
 call plug#end()
 "" / plugins
 
-set nocompatible
-set belloff=all
-set encoding=utf-8
-scriptencoding utf-8
+" set autoindent
+" set autoread
+" set colorcolumn=120
+" highlight ColorColumn ctermbg=23
+" set cursorcolumn
+" set cursorline
+" set expandtab
+" set hidden
+" set ignorecase
+" set list listchars=tab:»»,trail:·
+" set mouse=a
+" set number
+" set relativenumber
+" set scrolloff=5
+" set shiftround
+" set shiftwidth=2
+" set smartindent
+" set softtabstop=2
+" set splitbelow
+" set splitright
+" set tabstop=2
+" set title
+" set hlsearch
+" set incsearch
+" set wrap
+" set laststatus=2
 
-let mapleader = ' '
-
-set autoindent
-set autoread
-set colorcolumn=120
-set cursorcolumn
-set cursorline
-set expandtab
-set hidden
-set ignorecase
-set list listchars=tab:»»,trail:·
-set mouse=a
-set number
-set relativenumber
-set scrolloff=5
-set shiftround
-set shiftwidth=2
-set smartindent
-set softtabstop=2
-set splitbelow
-set splitright
-set tabstop=2
-set title
-set wildmenu
-set wildmode=list:longest
-set wrap
-
-let g:lightline = { 'colorscheme': 'wombat', 'active': { 'left': [ [ 'mode', 'paste' ], [ 'readonly', 'relativepath', 'modified' ] ], } }
-
-if !has('nvim')
-  set hlsearch
-  set incsearch
-  set wildmenu
-  set wildmode=list:longest
-  set laststatus=2
-endif
+" let g:lightline = { 'active': { 'left': [ [ 'mode', 'paste' ], [ 'readonly', 'relativepath', 'modified' ] ], } }
 
 " go to file:[line]
-nnoremap <silent>gf :vertical botright wincmd F<CR>
+" nnoremap <silent>gf :vertical botright wincmd F<CR>
 
 " switch between the last two files
 nnoremap <leader><leader> <c-^>
@@ -155,7 +139,7 @@ endif
 nmap ga <Plug>(EasyAlign)
 xmap ga <Plug>(EasyAlign)
 
-" NERDTree
+" " NERDTree
 let NERDTreeWinSize=50
 nnoremap <Leader>k :NERDTreeToggle<CR>
 " Stolen from https://github.com/skwp/dotfiles
@@ -165,6 +149,14 @@ function! FindInNerdTree()
   endif
 endfunction
 nnoremap <Leader>n :call FindInNerdTree()<CR>
+
+" VIM TREE
+" let g:netrw_banner=0        " disable annoying banner
+" let g:netrw_browse_split=4  " open in prior window
+" let g:netrw_altv=1          " open splits to the right
+" let g:netrw_liststyle=3     " tree view
+" let g:netrw_list_hide=netrw_gitignore#Hide()
+" let g:netrw_list_hide.=',\(^\|\s\s\)\zs\.\S\+'
 
 " ctags
 let g:Tlist_Ctags_Cmd="rm tags && ctags --exclude='*.js'"
@@ -192,17 +184,22 @@ endif
 au BufWrite * :retab
 au BufWrite * :RemoveTrailingSpaces
 
-filetype on
-filetype plugin on
-filetype indent on
-syntax   on
-syntax   enable
+" filetype on
+" filetype plugin on
+" filetype indent on
+" syntax   on
+" syntax   enable
 
 " appearance
 set background=dark
-if isdirectory(expand("~/.vim/plugged/gruvbox"))
-  colorscheme gruvbox
-endif
+let g:airline_theme='gruvbox'
+colorscheme gruvbox
+" set termguicolors
+hi Normal guibg=NONE ctermbg=NONE
+
+" if isdirectory(expand("~/.vim/plugged/gruvbox"))
+"   colorscheme gruvbox
+" endif
 if has("gui_running")
   set guioptions-=T " no toolbar or menus
   set guioptions-=r " no scrollbar on the right
@@ -214,14 +211,15 @@ if has("gui_running")
   set t_Co=256 "tell the term has 256 colors
 
   if has("gui_mac") || has("gui_macvim")
-    set guifont=Monaco:h10
+    set guifont=Monaco:h13
     set transparency=5
     set fullscreen
   endif
-else
-  set termguicolors
-  hi Normal guibg=NONE ctermbg=NONE
 endif
+" else
+"   set termguicolors
+"   hi Normal guibg=NONE ctermbg=NONE
+" endif
 " / appearance
 
 set secure

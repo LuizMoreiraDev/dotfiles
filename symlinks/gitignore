@@ -16,3 +16,6 @@ tmp/*
 !tmp/.keep
 
 .DS_Store
+
+.yardoc
+doc

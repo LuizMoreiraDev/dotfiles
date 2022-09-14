@@ -1,7 +1,7 @@
 font:
   size: 11.5
-  draw_bold_text_with_bright_colors: true
-  # use_thin_strokes: true
+  # normal:
+  #   family: Monaco
 
 selection:
   save_to_clipboard: true
@@ -14,21 +14,21 @@ scrolling:
 
 window:
   title: "Alacritty :: Terminal"
-  opacity: 0.95
+  opacity: 0.98
   startup_mode: Maximized
 
-shell:
-  # program: ssh
-  program: /usr/local/bin/tmux
-  args:
-    # - -t
-    # - luizclaudiomoreira@localhost
-    # - /usr/local/bin/tmux
-    - new-session
-    - -A
-    - -D
-    - -s
-    - main
+# shell:
+#   # program: ssh
+#   program: /usr/local/bin/tmux
+#   args:
+#     # - -t
+#     # - luizclaudiomoreira@localhost
+#     # - /usr/local/bin/tmux
+#     - new-session
+#     - -A
+#     - -D
+#     - -s
+#     - main
 
 key_bindings:
   # Navigation
@@ -38,7 +38,7 @@ key_bindings:
   - { key: Right, mods: Command, chars: "\x1bOF", mode: AppCursor   } # End
 
   # Alacritty preferences
-  - { key: Comma, mods: Command, command: { program: "zsh", args: ['-c', '/usr/local/bin/tmux new-window -t main -n alacritty-config "vim ~/.alacritty.yml"'] } }
+  - { key: Comma, mods: Command, command: { program: "zsh", args: ['-c', '/usr/local/bin/tmux new-window -n alacritty-config "vim ~/.alacritty.yml"'] } }
 
   # Full screen (macOS)
   - { key: Return, mods: Command, action: ToggleSimpleFullscreen }
@@ -47,15 +47,21 @@ key_bindings:
   - { key: T, mods: Command, command: { program: "/usr/local/bin/tmux", args: ["new-window"] } }
 
   # Use `<cmd + 1~9>` to switch tmux window
-  - { key: Key1, mods: Command, command: { program: "/usr/local/bin/tmux", args: ["select-window", "-t 0"] } }
-  - { key: Key2, mods: Command, command: { program: "/usr/local/bin/tmux", args: ["select-window", "-t 1"] } }
-  - { key: Key3, mods: Command, command: { program: "/usr/local/bin/tmux", args: ["select-window", "-t 2"] } }
-  - { key: Key4, mods: Command, command: { program: "/usr/local/bin/tmux", args: ["select-window", "-t 3"] } }
-  - { key: Key5, mods: Command, command: { program: "/usr/local/bin/tmux", args: ["select-window", "-t 4"] } }
-  - { key: Key6, mods: Command, command: { program: "/usr/local/bin/tmux", args: ["select-window", "-t 5"] } }
-  - { key: Key7, mods: Command, command: { program: "/usr/local/bin/tmux", args: ["select-window", "-t 6"] } }
-  - { key: Key8, mods: Command, command: { program: "/usr/local/bin/tmux", args: ["select-window", "-t 7"] } }
-  - { key: Key9, mods: Command, command: { program: "/usr/local/bin/tmux", args: ["select-window", "-t 8"] } }
+  - { key: Key1,  mods: Command,       command: { program: "/usr/local/bin/tmux", args: ["select-window", "-t 0"] } }
+  - { key: Key2,  mods: Command,       command: { program: "/usr/local/bin/tmux", args: ["select-window", "-t 1"] } }
+  - { key: Key3,  mods: Command,       command: { program: "/usr/local/bin/tmux", args: ["select-window", "-t 2"] } }
+  - { key: Key4,  mods: Command,       command: { program: "/usr/local/bin/tmux", args: ["select-window", "-t 3"] } }
+  - { key: Key5,  mods: Command,       command: { program: "/usr/local/bin/tmux", args: ["select-window", "-t 4"] } }
+  - { key: Key6,  mods: Command,       command: { program: "/usr/local/bin/tmux", args: ["select-window", "-t 5"] } }
+  - { key: Key7,  mods: Command,       command: { program: "/usr/local/bin/tmux", args: ["select-window", "-t 6"] } }
+  - { key: Key8,  mods: Command,       command: { program: "/usr/local/bin/tmux", args: ["select-window", "-t 7"] } }
+  - { key: Key9,  mods: Command,       command: { program: "/usr/local/bin/tmux", args: ["select-window", "-t 8"] } }
+
+  # Use `<cmd + shift + key arrows>` to switch pane
+  - { key: Up,    mods: Command|Shift, command: { program: "/usr/local/bin/tmux", args: ["select-pane", "-D"] } }
+  - { key: Down,  mods: Command|Shift, command: { program: "/usr/local/bin/tmux", args: ["select-pane", "-U"] } }
+  - { key: Left,  mods: Command|Shift, command: { program: "/usr/local/bin/tmux", args: ["select-pane", "-L"] } }
+  - { key: Right, mods: Command|Shift, command: { program: "/usr/local/bin/tmux", args: ["select-pane", "-R"] } }
 
 schemes:
   gruvbox-dark: &gruvbox-dark
@@ -63,7 +69,7 @@ schemes:
       background: '0x282828' # original
       # background: '0x32302f' # soft contrast
       # background: '0x1d2021' # hard contrast
-      foreground: '0xebdbb2'
+      # foreground: '0xebdbb2'
     normal:
       black:   '0x282828'
       red:     '0xcc241d'
@@ -84,6 +90,6 @@ schemes:
       white:   '0xebdbb2'
     transparent_background_colors: true
 
-# colors: *gruvbox-dark
-colors:
-  transparent_background_colors: true
+colors: *gruvbox-dark
+# colors:
+  # transparent_background_colors: true
