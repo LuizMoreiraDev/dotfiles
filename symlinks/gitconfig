@@ -79,8 +79,5 @@
   ps  = push
   rbi = rebase -i
   s   = status
-[user]
-	name = Luiz Claudio Moreira Junior
-	email = luizclaudiomoreira@gmail.com
 [fetch]
-	prune = true
+  prune = true

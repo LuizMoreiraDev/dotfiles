@@ -139,7 +139,6 @@ if has("gui_running")
   if has("gui_mac") || has("gui_macvim")
     set guifont=Andale\ Mono:h14
     set transparency=5
-    set fullscreen
     colorscheme dracula
   endif
 else
