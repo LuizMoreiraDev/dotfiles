@@ -2,8 +2,10 @@ if [ -f /usr/bin/dircolors ]; then
   LS_OPTS="--color=auto"
 fi
 
+alias brew="arch -arm64 /opt/homebrew/bin/brew"
+alias ibrew="arch -x86_64 /usr/local/bin/brew"
+
 # generic
-alias tmux="/usr/local/bin/tmux"
 alias t="tmux"
 alias tn="tmux new-session -A -D -s"
 alias v="vagrant"
@@ -28,8 +30,7 @@ alias ra="rails"
 alias ru="rubocop"
 alias rs="clear && rspec --format=documentation"
 
-alias dbreset="rails db:environment:set RAILS_ENV=test && RAILS_ENV=test rails db:drop && RAILS_ENV=test rails db:create && RAILS_ENV=test rails db:migrate"
-alias sdbreset="spring rails db:environment:set RAILS_ENV=test && RAILS_ENV=test spring rails db:drop && RAILS_ENV=test spring rails db:create && RAILS_ENV=test spring rails db:migrate"
+alias dbreset="rails db:environment:set RAILS_ENV=test && RAILS_ENV=test rails db:drop && RAILS_ENV=test rails db:create && RAILS_ENV=test rails db:migrate && RAILS_ENV=development rails db:reset"
 
 # spring
 alias sp="spring"

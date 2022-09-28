@@ -1,225 +1,112 @@
-" plugins
-" auto install Plug for managing plugins
-augroup vimrc | autocmd! | augroup end
-if empty(glob('~/.vim/autoload/plug.vim'))
-  silent !curl -fLo "$HOME/.vim/autoload/plug.vim" --create-dirs 'https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
-  autocmd vimrc VimEnter * PlugInstall --sync | source $MYVIMRC
+set nocompatible
+
+if filereadable(expand("~/.vimrc.before"))
+  source ~/.vimrc.before
 endif
 
-call plug#begin('~/.vim/plugged')
+" ================ General Config ====================
 
-" Plug 'Yggdroot/indentLine' "
-Plug 'ctrlpvim/ctrlp.vim'
-Plug 'ervandew/supertab'
-Plug 'gmarik/vundle'
-" Plug 'itchyny/lightline.vim'
-Plug 'vim-airline/vim-airline'
-" Plug 'edkolev/tmuxline.vim'
-Plug 'junegunn/vim-easy-align'
-Plug 'mg979/vim-visual-multi'
-Plug 'scrooloose/nerdtree'
-Plug 'slim-template/vim-slim'
-" Plug 'thoughtbot/vim-rspec' "
-Plug 'tomtom/tcomment_vim'
-Plug 'tpope/vim-endwise'
-Plug 'tpope/vim-rails'
-Plug 'vim-autoformat/vim-autoformat'
-Plug 'vim-ruby/vim-ruby'
-Plug 'wakatime/vim-wakatime'
-" Plug 'autozimu/LanguageClient-neovim'
-Plug 'tpope/vim-rhubarb'
-Plug 'tpope/vim-fugitive'
-Plug 'airblade/vim-gitgutter'
-" Plug 'morhetz/gruvbox'
-" Plug 'altercation/vim-colors-solarized'
-Plug 'rafi/awesome-vim-colorschemes'
-Plug 'fladson/vim-kitty'
-Plug 'stanangeloff/php.vim'
-Plug 'dsawardekar/wordpress.vim'
+" execute pathogen#infect()
+set number relativenumber       "Line numbers are good
+set history=1000                "Store lots of :cmdline history
+set showcmd                     "Show incomplete cmds down the bottom
+set showmode                    "Show current mode down the bottom
+set gcr=a:blinkon0              "Disable cursor blink
+set belloff=all
+" set visualbell                  "No sounds
+set autoread                    "Reload files changed outside vim
 
-call plug#end()
-"" / plugins
-
-" set autoindent
-" set autoread
-" set colorcolumn=120
-" highlight ColorColumn ctermbg=23
-" set cursorcolumn
-" set cursorline
-" set expandtab
-" set hidden
-" set ignorecase
-" set list listchars=tab:»»,trail:·
-" set mouse=a
-" set number
-" set relativenumber
-" set scrolloff=5
+" ================ Other Personal Config ====================
+set colorcolumn=115
+set mouse=a
 " set shiftround
-" set shiftwidth=2
-" set smartindent
-" set softtabstop=2
-" set splitbelow
-" set splitright
-" set tabstop=2
-" set title
-" set hlsearch
-" set incsearch
+set splitbelow
+set splitright
+set title
+set laststatus=2
+set nowrap
 " set wrap
-" set laststatus=2
 
-" let g:lightline = { 'active': { 'left': [ [ 'mode', 'paste' ], [ 'readonly', 'relativepath', 'modified' ] ], } }
+" This makes vim act like all other editors, buffers can
+" exist in the background without being in a window.
+" http://items.sjbach.com/319/configuring-vim-right
+set hidden
 
-" go to file:[line]
-" nnoremap <silent>gf :vertical botright wincmd F<CR>
+"turn on syntax highlighting
+syntax on
 
-" switch between the last two files
-nnoremap <leader><leader> <c-^>
+" Change leader to a comma because the backslash is too far away
+" That means all \x commands turn into ,x
+" The mapleader has to be set before vundle starts loading all
+" the plugins.
+let mapleader=" "
+set timeout timeoutlen=1500
 
-" copy / paste
-vnoremap y  "+y
-nnoremap yy "+yy
-" nnoremap <leader>cp <esc>:let @+=@%<cr>
-nnoremap <leader>cp <esc>:let @+ = expand("%")<cr>
+" ================ Turn Off Swap Files ==============
 
-" split
-nnoremap vv :vsplit<cr>
-nnoremap ss :split<cr>
+set noswapfile
+set nobackup
+set nowb
 
-" hide highlight search
-nmap <silent>qq :silent :nohlsearch<CR>
-
-" B = kill current buffer
-" W = save current file
-" Q = kill current pane/window
-nnoremap <silent>B <esc>:bd<cr>
-nnoremap <silent>W <esc>:w<cr>
-nnoremap <silent>Q <esc><C-w>q
-
-" move between split panes/windows using H, J, K, L
-nnoremap <silent><C-h> <C-w>h
-nnoremap <silent><C-l> <C-w>l
-nnoremap <silent><C-k> <C-w>k
-nnoremap <silent><C-j> <C-w>j
-
-" paste toggle
-nnoremap <F8> :set invpaste paste?<CR>
-set pastetoggle=<F8>
-
-" CtrlP
-nnoremap <Leader>p :CtrlP<CR>
-nnoremap <Leader>b :CtrlPBuffer<cr>
-nnoremap <Leader>t :CtrlPMRUFiles<CR>
-nnoremap <Leader>ja :CtrlP app<CR>
-nnoremap <Leader>jl :CtrlP lib<CR>
-nnoremap <Leader>jn :CtrlP models<CR>
-nnoremap <Leader>jv :CtrlP app/views<CR>
-nnoremap <Leader>jm :CtrlP app/models<CR>
-nnoremap <Leader>jc :CtrjP app/controllers<CR>
-nnoremap <Leader>ji :CtrlP app/assets/javascripts<CR>
-nnoremap <Leader>jy :CtrlP app/assets/stylesheets<CR>
-nnoremap <Leader>js :CtrlP spec<CR>
-nnoremap <Leader>jf :CtrlP features<CR>
-
-if exists("g:ctrlp_user_command")
-  unlet g:ctrlp_user_command
-endif
-if executable('ag')
-  " Use ag in CtrlP for listing files. Lightning fast and respects .gitignore
-  let g:ctrlp_user_command = 'ag %s --files-with-matches -g "" --ignore "\.git$\|\.hg$\|\.svn$"'
-
-  " ag is fast enough that CtrlP doesn't need to cache
-  " let g:ctrlp_use_caching = 0
-else
-  " Fall back to using git ls-files if Ag is not available
-  let g:ctrlp_custom_ignore = '\.git$\|\.hg$\|\.svn$'
-  let g:ctrlp_user_command  = ['.git', 'cd %s && git ls-files . --cached --exclude-standard --others']
+" ================ Persistent Undo ==================
+" Keep undo history across sessions, by storing in file.
+" Only works all the time.
+if has('persistent_undo') && !isdirectory(expand('~').'/.vim/backups')
+  silent !mkdir ~/.vim/backups > /dev/null 2>&1
+  set undodir=~/.vim/backups
+  set undofile
 endif
 
-" EasyAlign
-nmap ga <Plug>(EasyAlign)
-xmap ga <Plug>(EasyAlign)
+" ================ Folds ============================
 
-" " NERDTree
-let NERDTreeWinSize=50
-nnoremap <Leader>k :NERDTreeToggle<CR>
-" Stolen from https://github.com/skwp/dotfiles
-function! FindInNerdTree()
-  if &modifiable && strlen(expand('%')) > 0 && !&diff
-    NERDTreeFind
-  endif
-endfunction
-nnoremap <Leader>n :call FindInNerdTree()<CR>
+set foldmethod=indent   "fold based on indent
+set foldnestmax=3       "deepest fold is 3 levels
+set nofoldenable        "dont fold by default
 
-" VIM TREE
-" let g:netrw_banner=0        " disable annoying banner
-" let g:netrw_browse_split=4  " open in prior window
-" let g:netrw_altv=1          " open splits to the right
-" let g:netrw_liststyle=3     " tree view
-" let g:netrw_list_hide=netrw_gitignore#Hide()
-" let g:netrw_list_hide.=',\(^\|\s\s\)\zs\.\S\+'
+" ================ Scrolling ========================
 
-" ctags
-let g:Tlist_Ctags_Cmd="rm tags && ctags --exclude='*.js'"
-if has("gui_running") && (has("gui_mac") || has("gui_macvim"))
-  map <Leader>ct :!/usr/local/bin/ctags -R .<CR>
-else
-  map <Leader>ct :!ctags -R .<CR>
-endif
+set scrolloff=5         "Start scrolling when we're 5 lines away from margins
+set sidescrolloff=15
+set sidescroll=1
 
-" Tell the language client to use the default IP and port
-" that Solargraph runs on
-" let g:LanguageClient_serverCommands = {
-"     \ 'ruby': ['tcp://localhost:7658']
-"     \ }
+" ================ Search ===========================
 
-" Don't send a stop signal to the server when exiting vim.
-" This is optional, but I don't like having to restart Solargraph
-" every time I restart vim.
-" let g:LanguageClient_autoStop = 0
+set incsearch       " Find the next match as we type the search
+set hlsearch        " Highlight searches by default
+set ignorecase      " Ignore case when searching...
+set smartcase       " ...unless we type a capital
 
-" Configure ruby omni-completion to use the language client:
-" autocmd FileType ruby setlocal omnifunc=LanguageClient#complete
+" ================ Indentation ======================
 
-" auto format before saving
-au BufWrite * :retab
-au BufWrite * :RemoveTrailingSpaces
+set autoindent
+set smartindent
+set smarttab
+set shiftwidth=2
+set softtabstop=2
+set tabstop=2
+set expandtab
 
-" filetype on
-" filetype plugin on
-" filetype indent on
-" syntax   on
-" syntax   enable
+filetype plugin on
+filetype indent on
 
-" appearance
-set background=dark
-let g:airline_theme='gruvbox'
-colorscheme gruvbox
-" set termguicolors
-hi Normal guibg=NONE ctermbg=NONE
+" Display tabs and trailing spaces visually
+set list listchars=tab:»»,trail:·
 
-" if isdirectory(expand("~/.vim/plugged/gruvbox"))
-"   colorscheme gruvbox
-" endif
-if has("gui_running")
-  set guioptions-=T " no toolbar or menus
-  set guioptions-=r " no scrollbar on the right
-  set guioptions-=R " no scrollbar on the right
-  set guioptions-=l " no scrollbar on the left
-  set guioptions-=b " no scrollbar on the bottom
-  set guioptions-=L " no scrollbar on the nerdtree
+" set linebreak    "Wrap lines at convenient points
 
-  set t_Co=256 "tell the term has 256 colors
 
-  if has("gui_mac") || has("gui_macvim")
-    set guifont=Monaco:h13
-    set transparency=5
-    set fullscreen
-  endif
-endif
-" else
-"   set termguicolors
-"   hi Normal guibg=NONE ctermbg=NONE
-" endif
-" / appearance
+" ================ Custom Settings ========================
 
-set secure
+nnoremap <leader>ev <esc>:vsplit $MYVIMRC<cr>
+nnoremap <leader>rv <esc>:source $MYVIMRC<cr>
+
+nnoremap <silent>cc <esc>:set cursorline! cursorcolumn!<cr>
+
+" temporary
+source ~/.dotfiles/symlinks/vimrc.old
+
+" set path+=**
+set wildmenu
+set encoding=utf-8
+" set noswapfile
+scriptencoding utf-8
