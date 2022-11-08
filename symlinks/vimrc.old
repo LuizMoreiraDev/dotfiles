@@ -126,6 +126,7 @@ au BufWrite * :retab
 au BufWrite * :RemoveTrailingSpaces
 
 set background=dark
+colorscheme gruvbox
 if has("gui_running")
   set guioptions-=T " no toolbar or menus
   set guioptions-=r " no scrollbar on the right
@@ -137,13 +138,15 @@ if has("gui_running")
 "   set t_Co=256 "tell the term has 256 colors
 "
   if has("gui_mac") || has("gui_macvim")
-    set guifont=Andale\ Mono:h14
-    set transparency=5
-    colorscheme dracula
+    set guifont=Monaco:h13
+    " set guifont=Andale\ Mono:h14
+    set fullscreen
+    set transparency=2
+    " colorscheme dracula
   endif
 else
   let g:airline_theme='gruvbox'
-  colorscheme gruvbox
+  hi Normal guibg=NONE ctermbg=NONE
 endif
 " / appearance
 
