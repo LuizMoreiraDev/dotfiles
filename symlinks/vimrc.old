@@ -1,39 +1,121 @@
-" plugins
-" auto install Plug for managing plugins
-augroup vimrc | autocmd! | augroup end
-if empty(glob('~/.vim/autoload/plug.vim'))
-  silent !curl -fLo "$HOME/.vim/autoload/plug.vim" --create-dirs 'https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
-  autocmd vimrc VimEnter * PlugInstall --sync | source $MYVIMRC
+" frazrepo/vim-rainbow
+" let g:rainbow_active = 1
+
+if has('nvim')
+  exe 'luafile '.stdpath('config').'/nvim.lua'
+  " nnoremap <leader>p <cmd>lua require('telescope.builtin').find_files()<cr>
+  " nnoremap <leader>b <cmd>lua require('telescope.builtin').buffers()<cr>
+  " nnoremap <Leader>jl :Telescope find_files search_dirs=["./lib"]<CR>
+  " nnoremap <Leader>js :Telescope find_files search_dirs=["./spec"]<CR>
+  " nnoremap <Leader>jm :Telescope find_files search_dirs=["./app/models"]<CR>
+
+  " akinsho/toggleterm.nvim
+  autocmd TermEnter term://*toggleterm#* tnoremap <silent><c-t> <Cmd>exe v:count1 . "ToggleTerm"<CR>
+  nnoremap <silent><c-\> <Cmd>exe v:count1 . "ToggleTerm"<CR>
+  tnoremap <silent><c-\> <Cmd>exe v:count1 . "ToggleTerm"<CR>
+else
+  nnoremap <silent><c-\> <Cmd>:terminal<CR>
 endif
 
-call plug#begin('~/.vim/plugged')
+" ===== FZF =====
+let g:fzf_layout = { 'down': '~30%' }
+nnoremap <Leader>p :Files<CR>
+nnoremap <Leader>b :Buffers<cr>
+nnoremap <Leader>t :History<CR>
+nnoremap <Leader>jl :Files lib<CR>
+nnoremap <Leader>jn :Files models<CR>
+nnoremap <Leader>jv :Files app/views<CR>
+nnoremap <Leader>jm :Files app/models<CR>
+nnoremap <Leader>jc :Files app/controllers<CR>
+nnoremap <Leader>js :Files spec<CR>
+" ===== FZF =====
 
-Plug 'ctrlpvim/ctrlp.vim'
-Plug 'ervandew/supertab'
-Plug 'gmarik/vundle'
-Plug 'vim-airline/vim-airline'
-Plug 'junegunn/vim-easy-align'
-Plug 'mg979/vim-visual-multi'
-Plug 'scrooloose/nerdtree'
-Plug 'slim-template/vim-slim'
-" Plug 'thoughtbot/vim-rspec' "
-Plug 'tomtom/tcomment_vim'
-Plug 'tpope/vim-endwise'
-Plug 'tpope/vim-rails'
-Plug 'vim-autoformat/vim-autoformat'
-Plug 'vim-ruby/vim-ruby'
-Plug 'wakatime/vim-wakatime'
-Plug 'tpope/vim-rhubarb'
-Plug 'tpope/vim-fugitive'
-Plug 'airblade/vim-gitgutter'
-Plug 'morhetz/gruvbox'
-Plug 'dracula/vim'
-Plug 'fladson/vim-kitty'
-Plug 'stanangeloff/php.vim'
-Plug 'dsawardekar/wordpress.vim'
+" " CtrlP
+" nnoremap <Leader>p :CtrlP<CR>
+" nnoremap <Leader>b :CtrlPBuffer<cr>
+" nnoremap <Leader>t :CtrlPMRUFiles<CR>
+" " nnoremap <Leader>ja :CtrlP app<CR>
+" nnoremap <Leader>jl :CtrlP lib<CR>
+" nnoremap <Leader>jn :CtrlP models<CR>
+" nnoremap <Leader>jv :CtrlP app/views<CR>
+" nnoremap <Leader>jm :CtrlP app/models<CR>
+" nnoremap <Leader>jc :CtrjP app/controllers<CR>
+" " nnoremap <Leader>ji :CtrlP app/assets/javascripts<CR>
+" " nnoremap <Leader>jy :CtrlP app/assets/stylesheets<CR>
+" nnoremap <Leader>js :CtrlP spec<CR>
+" " nnoremap <Leader>jf :CtrlP features<CR>
+"
+" if exists("g:ctrlp_user_command")
+"   unlet g:ctrlp_user_command
+" endif
+" if executable('ag')
+"   " Use ag in CtrlP for listing files. Lightning fast and respects .gitignore
+"   let g:ctrlp_user_command = 'ag %s --files-with-matches -g "" --ignore "\.git$\|\.hg$\|\.svn$"'
+"
+"   " ag is fast enough that CtrlP doesn't need to cache
+"   " let g:ctrlp_use_caching = 0
+" else
+"   " Fall back to using git ls-files if Ag is not available
+"   let g:ctrlp_custom_ignore = '\.git$\|\.hg$\|\.svn$'
+"   let g:ctrlp_user_command  = ['.git', 'cd %s && git ls-files . --cached --exclude-standard --others']
+" endif
 
-call plug#end()
-"" / plugins
+" NERDTree
+let NERDTreeWinSize=50
+nnoremap <Leader>k :NERDTreeToggle<CR>
+" Stolen from https://github.com/skwp/dotfiles
+function! FindInNerdTree()
+  if &modifiable && strlen(expand('%')) > 0 && !&diff
+    NERDTreeFind
+  endif
+endfunction
+nnoremap <Leader>n :call FindInNerdTree()<CR>
+
+" COC - BEGIN
+" let g:coc_global_extensions = ['coc-snippets', 'coc-solargraph']
+let g:coc_global_extensions = [
+      \ 'coc-diagnostic',
+      \ 'coc-json',
+      \ 'coc-yaml',
+      \ 'coc-tsserver',
+      \ 'coc-eslint',
+      \ 'coc-solargraph',
+      \ 'coc-css',
+      \ 'coc-snippets',
+      \ ]
+set nowritebackup
+set updatetime=300
+set signcolumn=yes
+inoremap <silent><expr> <TAB>
+      \ coc#pum#visible() ? coc#pum#next(1) :
+      \ CheckBackspace() ? "\<Tab>" :
+      \ coc#refresh()
+inoremap <expr><S-TAB> coc#pum#visible() ? coc#pum#prev(1) : "\<C-h>"
+inoremap <silent><expr> <CR> coc#pum#visible() ? coc#pum#confirm()
+                              \: "\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"
+function! CheckBackspace() abort
+  let col = col('.') - 1
+  return !col || getline('.')[col - 1]  =~# '\s'
+endfunction
+
+" Use <c-space> to trigger completion
+if has('nvim')
+  inoremap <silent><expr> <c-space> coc#refresh()
+else
+  inoremap <silent><expr> <c-@> coc#refresh()
+endif
+
+" Use `[g` and `]g` to navigate diagnostics
+" Use `:CocDiagnostics` to get all diagnostics of current buffer in location list
+nmap <silent> [g <Plug>(coc-diagnostic-prev)
+nmap <silent> ]g <Plug>(coc-diagnostic-next)
+
+" GoTo code navigation
+nmap <silent> gd <Plug>(coc-definition)
+nmap <silent> gy <Plug>(coc-type-definition)
+nmap <silent> gi <Plug>(coc-implementation)
+nmap <silent> gr <Plug>(coc-references)
+""" COC - END
 
 " switch between the last two files
 nnoremap <leader><leader> <c-^>
@@ -68,50 +150,9 @@ nnoremap <silent><C-j> <C-w>j
 nnoremap <F8> :set invpaste paste?<CR>
 set pastetoggle=<F8>
 
-" CtrlP
-nnoremap <Leader>p :CtrlP<CR>
-nnoremap <Leader>b :CtrlPBuffer<cr>
-nnoremap <Leader>t :CtrlPMRUFiles<CR>
-nnoremap <Leader>ja :CtrlP app<CR>
-nnoremap <Leader>jl :CtrlP lib<CR>
-nnoremap <Leader>jn :CtrlP models<CR>
-nnoremap <Leader>jv :CtrlP app/views<CR>
-nnoremap <Leader>jm :CtrlP app/models<CR>
-nnoremap <Leader>jc :CtrjP app/controllers<CR>
-nnoremap <Leader>ji :CtrlP app/assets/javascripts<CR>
-nnoremap <Leader>jy :CtrlP app/assets/stylesheets<CR>
-nnoremap <Leader>js :CtrlP spec<CR>
-nnoremap <Leader>jf :CtrlP features<CR>
-
-if exists("g:ctrlp_user_command")
-  unlet g:ctrlp_user_command
-endif
-if executable('ag')
-  " Use ag in CtrlP for listing files. Lightning fast and respects .gitignore
-  let g:ctrlp_user_command = 'ag %s --files-with-matches -g "" --ignore "\.git$\|\.hg$\|\.svn$"'
-
-  " ag is fast enough that CtrlP doesn't need to cache
-  " let g:ctrlp_use_caching = 0
-else
-  " Fall back to using git ls-files if Ag is not available
-  let g:ctrlp_custom_ignore = '\.git$\|\.hg$\|\.svn$'
-  let g:ctrlp_user_command  = ['.git', 'cd %s && git ls-files . --cached --exclude-standard --others']
-endif
-
 " EasyAlign
 nmap ga <Plug>(EasyAlign)
 xmap ga <Plug>(EasyAlign)
-
-" " NERDTree
-let NERDTreeWinSize=50
-nnoremap <Leader>k :NERDTreeToggle<CR>
-" Stolen from https://github.com/skwp/dotfiles
-function! FindInNerdTree()
-  if &modifiable && strlen(expand('%')) > 0 && !&diff
-    NERDTreeFind
-  endif
-endfunction
-nnoremap <Leader>n :call FindInNerdTree()<CR>
 
 " ctags
 let g:Tlist_Ctags_Cmd="rm tags && ctags --exclude='*.js'"
@@ -122,32 +163,79 @@ else
 endif
 
 " auto format before saving
-au BufWrite * :retab
+au BufWrite * :retab!
 au BufWrite * :RemoveTrailingSpaces
 
+" air-line
+let g:airline_powerline_fonts = 1
+
+
+if !exists('g:airline_symbols')
+    let g:airline_symbols = {}
+endif
+
+" airline symbols
+let g:airline_left_sep = ''
+let g:airline_left_alt_sep = ''
+let g:airline_right_sep = ''
+let g:airline_right_alt_sep = ''
+let g:airline_symbols.branch = ''
+let g:airline_symbols.readonly = ''
+let g:airline_symbols.linenr = ''
+
 set background=dark
-colorscheme gruvbox
-if has("gui_running")
+
+"" gruvbox
+" let g:gruvbox_invert_signs=1
+" let g:gruvbox_contrast_dark="hard"
+" colorscheme gruvbox
+"" / gruvbox
+
+"" material
+if (has('nvim'))
+  let $NVIM_TUI_ENABLE_TRUE_COLOR = 1
+else
+  let &t_ZH="\e[3m"
+  let &t_ZR="\e[23m"
+endif
+if (has('termguicolors'))
+  set termguicolors
+endif
+let g:airline_theme = 'material'
+let g:material_theme_style = 'default-community' "'default' | 'palenight' | 'ocean' | 'lighter' | 'darker' | 'default-community' | 'palenight-community' | 'ocean-community' | 'lighter-community' | 'darker-community'
+let g:material_terminal_italics = 1
+colorscheme material
+hi Normal guibg=NONE ctermbg=NONE
+"" /material
+
+if has("gui_mac") || has("gui_macvim")
+  set colorcolumn=80
+  set guifont=Monaco\ NF:h19
+  set transparency=5
+  set lines=44
+  set columns=174
   set guioptions-=T " no toolbar or menus
   set guioptions-=r " no scrollbar on the right
   set guioptions-=R " no scrollbar on the right
   set guioptions-=l " no scrollbar on the left
   set guioptions-=b " no scrollbar on the bottom
   set guioptions-=L " no scrollbar on the nerdtree
-"
-"   set t_Co=256 "tell the term has 256 colors
-"
-  if has("gui_mac") || has("gui_macvim")
-    set guifont=Monaco:h13
-    " set guifont=Andale\ Mono:h14
-    set fullscreen
-    set transparency=2
-    " colorscheme dracula
-  endif
-else
-  let g:airline_theme='gruvbox'
-  hi Normal guibg=NONE ctermbg=NONE
 endif
-" / appearance
+
+" if has('nvim')
+"   colorscheme nightfox
+" else
+"   colorscheme gruvbox
+" endif
+" let g:italic_comments = 1
+" let g:italic_keywords = 1
+" let g:italic_functions = 1
+" let g:italic_variables = 1
+" let g:transparent_background = 1
 
 set secure
+
+" ryanoasis/vim-devicons
+if exists("g:loaded_webdevicons")
+  call webdevicons#refresh()
+endif

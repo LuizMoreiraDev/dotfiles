@@ -1,17 +1,17 @@
-[color]
-  ui = true
-
-[color "branch"]
-  current = yellow reverse
-  local = yellow
-  remote = green
-
-[color "diff"]
-  meta = yellow bold
-  frag = magenta bold
-  old = red
-  new = green
-
+# [color]
+#   ui = true
+#
+# [color "branch"]
+#   current = yellow reverse
+#   local = yellow
+#   remote = green
+#
+# [color "diff"]
+#   meta = yellow bold
+#   frag = magenta bold
+#   old = red
+#   new = green
+#
 [format]
   pretty = format:%C(blue)%ad%Creset %C(yellow)%h%C(green)%d%Creset %C(blue)%s %C(magenta) [%an]%Creset
 
@@ -32,14 +32,16 @@
   # 'git push' will push the current branch to its tracking branch
   # the usual default is to push all branches
   default = upstream
+  autoSetupRemote = true
 
 [core]
-  autocrlf = false
+  # autocrlf = false
   editor = vim
+  # editor = /usr/local/bin/subl -w
   excludesfile = ~/.gitignore
 
-[advice]
-  statusHints = false
+# [advice]
+#   statusHints = false
 
 [diff]
   # Git diff will use (i)ndex, (w)ork tree, (c)ommit and (o)bject
@@ -52,11 +54,11 @@
   # http://gitfu.wordpress.com/2008/04/20/git-rerere-rereremember-what-you-did-last-time/
   enabled = true
 
-[filter "lfs"]
-  smudge = git-lfs smudge -- %f
-  process = git-lfs filter-process
-  required = true
-  clean = git-lfs clean -- %f
+# [filter "lfs"]
+#   smudge = git-lfs smudge -- %f
+#   process = git-lfs filter-process
+#   required = true
+#   clean = git-lfs clean -- %f
 
 [pull]
   rebase = false
@@ -64,20 +66,39 @@
 [init]
   defaultBranch = main
 
-[include]
-  path = ~/.gitconfig.user
-
-[alias]
-  ac  = "!git add . && git commit -am"
-  c   = commit
-  ca  = commit -a
-  cam = commit -am
-  co  = checkout
-  d   = diff
-  la  = "!git config -l | grep alias | cut -c 7-"
-  pl  = pull
-  ps  = push
-  rbi = rebase -i
-  s   = status
 [fetch]
   prune = true
+
+[alias]
+  a  = add
+  b  = branch
+  c  = commit
+  d  = diff
+  f  = fetch
+  s  = status
+  fl = flow
+  lg = log
+  pl = pull
+  ps = push
+  co = checkout
+  rb = rebase
+  # ac  = "!git add . && git commit -am"
+  # c   = commit
+  # ca  = commit -a
+  # cam = commit -am
+  # co  = checkout
+  # d   = diff
+  la  = "!git config -l | grep alias | cut -c 7-"
+  # pl  = pull
+  # ps  = push
+  # rbi = rebase -i
+  # s   = status
+
+[gpg]
+  format = ssh
+
+[commit]
+  gpgsign = true
+
+[include]
+  path = ~/.gitconfig.user

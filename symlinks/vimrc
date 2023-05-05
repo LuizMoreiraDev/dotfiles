@@ -4,6 +4,86 @@ if filereadable(expand("~/.vimrc.before"))
   source ~/.vimrc.before
 endif
 
+" plugins
+" auto install Plug for managing plugins
+augroup vimrc | autocmd! | augroup end
+if empty(glob('~/.vim/autoload/plug.vim'))
+  silent !curl -fLo "$HOME/.vim/autoload/plug.vim" --create-dirs 'https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
+  autocmd vimrc VimEnter * PlugInstall --sync | source $MYVIMRC
+endif
+
+call plug#begin('~/.vim/plugged')
+
+"" THEMES
+" Plug 'https://github.com/rafi/awesome-vim-colorschemes' " Retro Scheme
+" Plug 'altercation/vim-colors-solarized'
+" Plug 'frazrepo/vim-rainbow'
+" Plug 'lunarvim/colorschemes'
+Plug 'kaicataldo/material.vim'
+"" / THEMES
+
+Plug 'neoclide/coc.nvim', { 'do': 'yarn install --frozen-lockfile' } " Auto Completion
+" Plug 'https://github.com/ryanoasis/vim-devicons' " Developer Icons
+Plug 'ray-x/starry.nvim'
+" Plug 'ctrlpvim/ctrlp.vim'
+Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
+Plug 'junegunn/fzf.vim'
+
+" Plug 'prabirshrestha/vim-lsp'
+" Plug 'mattn/vim-lsp-settings'
+" Plug 'prabirshrestha/asyncomplete.vim'
+" Plug 'prabirshrestha/asyncomplete-lsp.vim'
+" Plug 'sheerun/vim-polyglot'
+" Plug 'jiangmiao/auto-pairs'
+" Plug 'itchyny/lightline.vim'
+" Plug 'jayli/vim-easycomplete'
+" Plug 'SirVer/ultisnips'
+
+" Markdown
+" Plug 'instant-markdown/vim-instant-markdown', {'for': 'markdown', 'do': 'yarn install'}
+
+if has('nvim')
+  " Config stuff
+  Plug 'nvim-lua/plenary.nvim'
+  Plug 'nvim-lualine/lualine.nvim'
+  Plug 'nvim-treesitter/nvim-treesitter'
+  Plug 'EdenEast/nightfox.nvim'
+
+  " Plugins
+  " Plug 'nvim-telescope/telescope.nvim'
+  Plug 'akinsho/toggleterm.nvim', {'tag' : '*'}
+  Plug 'github/copilot.vim'
+  Plug 'aduros/ai.vim'
+  " Plug 'folke/trouble.nvim'
+endif
+Plug 'ervandew/supertab'
+Plug 'gmarik/vundle'
+Plug 'vim-airline/vim-airline'
+Plug 'junegunn/vim-easy-align'
+Plug 'mg979/vim-visual-multi'
+Plug 'preservim/nerdtree'
+Plug 'Xuyuanp/nerdtree-git-plugin'
+Plug 'slim-template/vim-slim'
+" Plug 'thoughtbot/vim-rspec' "
+Plug 'tomtom/tcomment_vim'
+Plug 'tpope/vim-endwise'
+Plug 'tpope/vim-rails'
+Plug 'vim-autoformat/vim-autoformat'
+Plug 'vim-ruby/vim-ruby'
+Plug 'wakatime/vim-wakatime'
+Plug 'tpope/vim-rhubarb'
+Plug 'tpope/vim-fugitive'
+Plug 'airblade/vim-gitgutter'
+Plug 'morhetz/gruvbox'
+Plug 'dracula/vim'
+Plug 'fladson/vim-kitty'
+Plug 'stanangeloff/php.vim'
+Plug 'dsawardekar/wordpress.vim'
+Plug 'JunioJsv/portugol-support-vim'
+
+call plug#end()
+"" / plugins
+
 " ================ General Config ====================
 
 " execute pathogen#infect()
@@ -17,15 +97,14 @@ set belloff=all
 set autoread                    "Reload files changed outside vim
 
 " ================ Other Personal Config ====================
-set colorcolumn=115
+set colorcolumn=120
 set mouse=a
-" set shiftround
 set splitbelow
 set splitright
 set title
 set laststatus=2
-set nowrap
-" set wrap
+set wrap
+set linebreak    "Wrap lines at convenient points
 
 " This makes vim act like all other editors, buffers can
 " exist in the background without being in a window.
@@ -33,7 +112,7 @@ set nowrap
 set hidden
 
 "turn on syntax highlighting
-syntax on
+syntax enable
 
 " Change leader to a comma because the backslash is too far away
 " That means all \x commands turn into ,x
@@ -81,6 +160,7 @@ set smartcase       " ...unless we type a capital
 set autoindent
 set smartindent
 set smarttab
+set shiftround
 set shiftwidth=2
 set softtabstop=2
 set tabstop=2
@@ -92,7 +172,6 @@ filetype indent on
 " Display tabs and trailing spaces visually
 set list listchars=tab:»»,trail:·
 
-" set linebreak    "Wrap lines at convenient points
 
 
 " ================ Custom Settings ========================
@@ -102,11 +181,11 @@ nnoremap <leader>rv <esc>:source $MYVIMRC<cr>
 
 nnoremap <silent>cc <esc>:set cursorline! cursorcolumn!<cr>
 
-" temporary
-source ~/.dotfiles/symlinks/vimrc.old
-
 " set path+=**
 set wildmenu
 set encoding=utf-8
 " set noswapfile
 scriptencoding utf-8
+
+" temporary
+source ~/.dotfiles/symlinks/vimrc.old
