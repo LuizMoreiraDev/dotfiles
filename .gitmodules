@@ -1,0 +1,3 @@
+[submodule "symlinks/hammerspoon/Spoons/MyWindowManager.spoon"]
+	path = symlinks/hammerspoon/Spoons/MyWindowManager.spoon
+	url = https://github.com/luizclaudiomoreira/MyWindowManager.spoon.git
