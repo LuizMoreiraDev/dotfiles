@@ -13,7 +13,7 @@ zstyle ':vcs_info:git:*' formats '%F{240}(%b)%r%f'
 zstyle ':vcs_info:*' enable git
 
 
-
+hidutil property --set '{"UserKeyMapping":[{"HIDKeyboardModifierMappingSrc":0x700000029,"HIDKeyboardModifierMappingDst":0x700000035},{"HIDKeyboardModifierMappingSrc":0x700000039,"HIDKeyboardModifierMappingDst":0x700000029}]}' > /dev/null
 
 
 export CLICOLOR=1
@@ -27,6 +27,17 @@ zstyle ':completion:*' list-colors ''
 zstyle ':completion:*:*:kill:*:processes' list-colors '=(#b) #([0-9]#) ([0-9a-z-]#)*=01;34=0=01'
 
 source ~/.dotfiles/aliases.zsh
+
+ssh() {
+  if [[ " $* " == *" -i "* ]]; then
+    command ssh -o IdentitiesOnly=yes "$@"
+  else
+    command ssh "$@"
+  fi
+}
+
+export EDITOR='nvim'
+export VISUAL='subl -w'
 
 if [ -d ~/.zsh.after/ ]; then
   if [ "$(ls -A ~/.zsh.after/)" ]; then

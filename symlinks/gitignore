@@ -3,10 +3,14 @@
 .env
 .secret
 .vagrant
+.cursorignore
+mise.toml
 
 coverage
 
 tags
+
+bin/dev_public
 
 log/*
 !log/.gitkeep
@@ -20,3 +24,18 @@ tmp/*
 
 .yardoc
 doc
+
+docker-compose.yml
+passenger.80*
+
+.tool-versions
+
+*.pem
+
+# TIDY
+package-lock.json
+scripts/replace-env.config.js
+scripts/replace.env.js
+.claude/
+.claude/settings.local.json
+CLAUDE.md

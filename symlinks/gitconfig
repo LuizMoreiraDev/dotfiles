@@ -35,9 +35,7 @@
   autoSetupRemote = true
 
 [core]
-  # autocrlf = false
   editor = vim
-  # editor = /usr/local/bin/subl -w
   excludesfile = ~/.gitignore
 
 # [advice]
@@ -69,19 +67,25 @@
 [fetch]
   prune = true
 
+[grep]
+  lineNumber = true
+
 [alias]
   a  = add
   b  = branch
   c  = commit
-  d  = diff
+  d = diff --ignore-all-space
   f  = fetch
   s  = status
+  gr = grep --files-with-matches
   fl = flow
   lg = log
   pl = pull
   ps = push
+  ca = commit -a
   co = checkout
   rb = rebase
+  plo = pull origin
   # ac  = "!git add . && git commit -am"
   # c   = commit
   # ca  = commit -a
@@ -99,6 +103,9 @@
 
 [commit]
   gpgsign = true
+
+[tag]
+  gpgSign = true
 
 [include]
   path = ~/.gitconfig.user

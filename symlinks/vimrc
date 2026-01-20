@@ -1,166 +1,37 @@
-set nocompatible
+syntax enable
 
-if filereadable(expand("~/.vimrc.before"))
-  source ~/.vimrc.before
-endif
+let mapleader=" "
 
-" plugins
-" auto install Plug for managing plugins
-augroup vimrc | autocmd! | augroup end
-if empty(glob('~/.vim/autoload/plug.vim'))
-  silent !curl -fLo "$HOME/.vim/autoload/plug.vim" --create-dirs 'https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
-  autocmd vimrc VimEnter * PlugInstall --sync | source $MYVIMRC
-endif
-
-call plug#begin('~/.vim/plugged')
-
-"" THEMES
-" Plug 'https://github.com/rafi/awesome-vim-colorschemes' " Retro Scheme
-" Plug 'altercation/vim-colors-solarized'
-" Plug 'frazrepo/vim-rainbow'
-" Plug 'lunarvim/colorschemes'
-" Plug 'kaicataldo/material.vim'
-Plug 'EdenEast/nightfox.nvim' " NVIM
-Plug 'raphamorim/lucario'     " VIM
-" Plug 'vim-airline/vim-airline-themes'
-"" / THEMES
-
-Plug 'neoclide/coc.nvim', { 'do': 'yarn install --frozen-lockfile' } " Auto Completion
-" Plug 'https://github.com/ryanoasis/vim-devicons' " Developer Icons
-Plug 'ray-x/starry.nvim'
-" Plug 'ctrlpvim/ctrlp.vim'
-Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
-Plug 'junegunn/fzf.vim'
-
-Plug 'parkr/vim-jekyll'
-
-" Plug 'prabirshrestha/vim-lsp'
-" Plug 'mattn/vim-lsp-settings'
-" Plug 'prabirshrestha/asyncomplete.vim'
-" Plug 'prabirshrestha/asyncomplete-lsp.vim'
-" Plug 'sheerun/vim-polyglot'
-" Plug 'jiangmiao/auto-pairs'
-" Plug 'itchyny/lightline.vim'
-" Plug 'jayli/vim-easycomplete'
-" Plug 'SirVer/ultisnips'
-
-" Markdown
-" Plug 'instant-markdown/vim-instant-markdown', {'for': 'markdown', 'do': 'yarn install'}
-
-if has('nvim')
-  " Config stuff
-  Plug 'nvim-lua/plenary.nvim'
-  Plug 'nvim-lualine/lualine.nvim'
-  Plug 'nvim-treesitter/nvim-treesitter'
-
-  " Plugins
-  " Plug 'nvim-telescope/telescope.nvim'
-  Plug 'akinsho/toggleterm.nvim', {'tag' : '*'}
-  Plug 'github/copilot.vim'
-  Plug 'aduros/ai.vim'
-  " Plug 'folke/trouble.nvim'
-endif
-Plug 'ervandew/supertab'
-Plug 'gmarik/vundle'
-Plug 'vim-airline/vim-airline'
-Plug 'junegunn/vim-easy-align'
-Plug 'mg979/vim-visual-multi'
-Plug 'preservim/nerdtree'
-Plug 'Xuyuanp/nerdtree-git-plugin'
-Plug 'slim-template/vim-slim'
-" Plug 'thoughtbot/vim-rspec' "
-Plug 'tomtom/tcomment_vim'
-Plug 'tpope/vim-endwise'
-Plug 'tpope/vim-rails'
-Plug 'vim-autoformat/vim-autoformat'
-Plug 'vim-ruby/vim-ruby'
-Plug 'wakatime/vim-wakatime'
-Plug 'tpope/vim-rhubarb'
-Plug 'tpope/vim-fugitive'
-Plug 'airblade/vim-gitgutter'
-Plug 'morhetz/gruvbox'
-Plug 'dracula/vim'
-Plug 'fladson/vim-kitty'
-Plug 'stanangeloff/php.vim'
-Plug 'dsawardekar/wordpress.vim'
-Plug 'JunioJsv/portugol-support-vim'
-
-call plug#end()
-"" / plugins
-
-" ================ General Config ====================
-
-" execute pathogen#infect()
-set number relativenumber       "Line numbers are good
-set history=1000                "Store lots of :cmdline history
-set showcmd                     "Show incomplete cmds down the bottom
-set showmode                    "Show current mode down the bottom
-set gcr=a:blinkon0              "Disable cursor blink
+set number relativenumber
+set history=1000
+set showcmd
+set showmode
+set gcr=a:blinkon0
 set belloff=all
-" set visualbell                  "No sounds
-set autoread                    "Reload files changed outside vim
-
-" ================ Other Personal Config ====================
-set colorcolumn=120
+set autoread
+" set colorcolumn=120
 set mouse=a
 set splitbelow
 set splitright
 set title
 set laststatus=2
 set wrap
-set linebreak    "Wrap lines at convenient points
-
-" This makes vim act like all other editors, buffers can
-" exist in the background without being in a window.
-" http://items.sjbach.com/319/configuring-vim-right
+set linebreak
 set hidden
-
-"turn on syntax highlighting
-syntax enable
-
-" Change leader to a comma because the backslash is too far away
-" That means all \x commands turn into ,x
-" The mapleader has to be set before vundle starts loading all
-" the plugins.
-let mapleader=" "
 set timeout timeoutlen=1500
-
-" ================ Turn Off Swap Files ==============
-
 set noswapfile
 set nobackup
 set nowb
-
-" ================ Persistent Undo ==================
-" Keep undo history across sessions, by storing in file.
-" Only works all the time.
-if has('persistent_undo') && !isdirectory(expand('~').'/.vim/backups')
-  silent !mkdir ~/.vim/backups > /dev/null 2>&1
-  set undodir=~/.vim/backups
-  set undofile
-endif
-
-" ================ Folds ============================
-
-set foldmethod=indent   "fold based on indent
-set foldnestmax=3       "deepest fold is 3 levels
-set nofoldenable        "dont fold by default
-
-" ================ Scrolling ========================
-
-set scrolloff=5         "Start scrolling when we're 5 lines away from margins
+set foldmethod=indent
+set foldnestmax=3
+set nofoldenable
+set scrolloff=5
 set sidescrolloff=15
 set sidescroll=1
-
-" ================ Search ===========================
-
-set incsearch       " Find the next match as we type the search
-set hlsearch        " Highlight searches by default
-set ignorecase      " Ignore case when searching...
-set smartcase       " ...unless we type a capital
-
-" ================ Indentation ======================
-
+set incsearch
+set hlsearch
+set ignorecase
+set smartcase
 set autoindent
 set smartindent
 set smarttab
@@ -169,27 +40,46 @@ set shiftwidth=2
 set softtabstop=2
 set tabstop=2
 set expandtab
+set list listchars=tab:»»,trail:·
+set wildmenu
+set encoding=utf-8
+set noswapfile
+set nowritebackup
+set updatetime=300
+set signcolumn=yes
+
+scriptencoding utf-8
 
 filetype plugin on
 filetype indent on
 
-" Display tabs and trailing spaces visually
-set list listchars=tab:»»,trail:·
 
+" switch between the last two files
+nnoremap <leader><leader> <c-^>
 
+" copy / paste
+vnoremap y  "+y
+"nnoremap yy "+yy
+nnoremap <leader>cp <esc>:let @+ = expand("%")<cr>
 
-" ================ Custom Settings ========================
+" split
+nnoremap vv :vsplit<cr>
+nnoremap ss :split<cr>
 
-nnoremap <leader>ev <esc>:vsplit $MYVIMRC<cr>
-nnoremap <leader>rv <esc>:source $MYVIMRC<cr>
+" hide highlight search
+nmap <silent>qq :silent :nohlsearch<CR>
 
-nnoremap <silent>cc <esc>:set cursorline! cursorcolumn!<cr>
+" B = kill current buffer
+" W = save current file
+" Q = kill current pane/window
+nnoremap <silent>B <esc>:bd<cr>
+nnoremap <silent>W <esc>:w<cr>
+nnoremap <silent>Q <esc><C-w>q
 
-" set path+=**
-set wildmenu
-set encoding=utf-8
-" set noswapfile
-scriptencoding utf-8
+" move between split panes/windows using H, J, K, L
+nnoremap <silent><C-h> <C-w>h
+nnoremap <silent><C-l> <C-w>l
+nnoremap <silent><C-k> <C-w>k
+nnoremap <silent><C-j> <C-w>j
 
-" temporary
-source ~/.dotfiles/symlinks/vimrc.old
+set secure
