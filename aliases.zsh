@@ -2,6 +2,7 @@ if [ -f /usr/bin/dircolors ]; then
   LS_OPTS="--color=auto"
 fi
 
+alias claude="claude-chill /opt/homebrew/bin/claude"
 alias g=git
 alias gs="git status"
 alias irb="clear && irb"
